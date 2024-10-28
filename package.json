@@ -1,0 +1,17 @@
+{
+  "name": "papertrail",
+  "version": "1.0.0",
+  "description": "The project aims to develop an integrated information system that enables researchers, professionals, and innovators to efficiently discover relevant research papers and patents, and connect with domain experts. By consolidating multiple databases, this system reduces the manual effort of searching scattered information, streamlining the research and development process.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-ejs-layouts": "^2.5.1"
+  }
+}
