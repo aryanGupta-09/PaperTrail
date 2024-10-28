@@ -1,0 +1,17 @@
+<h1>SerpAPI</h1>
+<ul>
+    <% if (results && results.organic_results) { %>
+        <% results.organic_results.forEach(result=> { %>
+            <li>
+                <h2><a href="<%= result.link %>">
+                        <%= result.title %>
+                    </a></h2>
+                <p>
+                    <%= result.snippet %>
+                </p>
+            </li>
+            <% }); %>
+                <% } else { %>
+                    <li>No results found.</li>
+                    <% } %>
+</ul>
