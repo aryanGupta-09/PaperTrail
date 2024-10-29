@@ -1,0 +1,21 @@
+<!-- views/dblp.ejs -->
+<h1>DBLP Search Results</h1>
+<ul>
+    <% if (results && results.length) { %>
+        <% results.forEach(result => { %>
+            <li>
+                <h2><a href="<%= result.info.url %>">
+                        <%= result.info.title %>
+                    </a></h2>
+                <p>
+                    <%= Array.isArray(result.info.authors?.author)
+                        ? result.info.authors.author.map(a => a.text).join(', ')
+                        : result.info.authors?.author?.text || 'Unknown authors' %>
+                </p>
+                <p>Year: <%= result.info.year || 'N/A' %></p>
+            </li>
+        <% }); %>
+    <% } else { %>
+        <li>No results found.</li>
+    <% } %>
+</ul>
