@@ -8,5 +8,6 @@ console.log("Router loaded");
 router.get("/", homeController.home);
 router.use("/serpapi", require("./serpapi"));
 router.use("/dblp", require("./dblp"));  // to include the DBLP route
+router.use("/arxiv", require("./arxiv"));
 
 module.exports = router;

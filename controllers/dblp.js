@@ -9,7 +9,7 @@ module.exports.search = async function (req, res) {
                 format: 'json',
                 h: 30, // number of results to display
                 f: 0,  // start from the fth result
-                q: '2024'  // replace with your query parameter
+                q: 'sugar'  // replace with your query parameter
             }
         });
 

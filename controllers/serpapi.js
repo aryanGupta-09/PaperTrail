@@ -7,9 +7,11 @@ module.exports.search = async function (req, res) {
     try {
         const response = await axios.get('https://serpapi.com/search', {
             params: {
-                q: 'artificial intelligence', // Replace with your query parameter
+                q: 'sugar', // Replace with your query parameter
                 engine: 'google_scholar',
-                api_key: SERP_API_KEY
+                api_key: SERP_API_KEY,
+                num: 20, // Change this number to however many results you want (up to about 20)
+                start: 19
             }
         });
 
