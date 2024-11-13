@@ -8,6 +8,8 @@
             <tr>
                 <th>Title</th>
                 <th>Snippet</th>
+                <th>Authors</th>
+                <th>Year</th>
                 <th>Link</th>
             </tr>
         </thead>
@@ -16,6 +18,24 @@
                 <tr>
                     <td><%= result.title %></td>
                     <td><%= result.snippet %></td>
+
+                    <td>
+                        <% if (result.publication_info && result.publication_info.authors) { %>
+                            <%= result.publication_info.authors.map(author => author.name).join(', ') %>
+                        <% } else { %>
+                            Unknown
+                        <% } %>
+                    </td>
+
+                    <td>
+                        <% if (result.publication_info && result.publication_info.summary) { %>
+                            <% const yearMatch = result.publication_info.summary.match(/\b(19|20)\d{2}\b/); %>
+                            <%= yearMatch ? yearMatch[0] : 'Unknown' %>
+                        <% } else { %>
+                            Unknown
+                        <% } %>
+                    </td>
+                    
                     <td><a href="<%= result.link %>" target="_blank">View</a></td>
                 </tr>
             <% }) %>
