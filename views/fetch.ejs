@@ -1,58 +1,86 @@
-<h1>Data from sources:</h1>
+<h1>Data from Sources:</h1>
 
-<h2>SerpAPI:</h2>
-<ul>
-    <% if (serpapi_results && serpapi_results.organic_results) { %>
-        <% serpapi_results.organic_results.forEach(result=> { %>
-            <li>
-                <h2><a href="<%= result.link %>">
-                        <%= result.title %>
-                    </a></h2>
-                <p>
-                    <%= result.snippet %>
-                </p>
-            </li>
-            <% }); %>
-                <% } else { %>
-                    <li>No results found.</li>
-                    <% } %>
-</ul>
+<!-- SerpAPI Results Table -->
+<h2>SerpAPI Results</h2>
+<% if (serpapi_results && serpapi_results.organic_results && serpapi_results.organic_results.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Snippet</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% serpapi_results.organic_results.forEach(result => { %>
+                <tr>
+                    <td><%= result.title %></td>
+                    <td><%= result.snippet %></td>
+                    <td><a href="<%= result.link %>" target="_blank">View</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } else { %>
+    <p>No results found for SerpAPI.</p>
+<% } %>
 
-<h2>DBLP:</h2>
-<ul>
-    <% if (dblp_results && dblp_results.length) { %>
-        <% dblp_results.forEach(result => { %>
-            <li>
-                <h2><a href="<%= result.info.url %>">
-                        <%= result.info.title %>
-                    </a></h2>
-                <p>
-                    <%= Array.isArray(result.info.authors?.author)
-                        ? result.info.authors.author.map(a => a.text).join(', ')
-                        : result.info.authors?.author?.text || 'Unknown authors' %>
-                </p>
-                <p>Year: <%= result.info.year || 'N/A' %></p>
-            </li>
-        <% }); %>
-    <% } else { %>
-        <li>No results found.</li>
-    <% } %>
-</ul>
+<!-- DBLP Results Table -->
+<h2>DBLP Results</h2>
+<% if (dblp_results && dblp_results.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Year</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dblp_results.forEach(result => { %>
+                <tr>
+                    <td><%= result.info.title %></td>
+                    <td>
+                        <%= Array.isArray(result.info.authors?.author)
+                            ? result.info.authors.author.map(a => a.text).join(', ')
+                            : result.info.authors?.author?.text || 'Unknown authors' %>
+                    </td>
+                    <td><%= result.info.year || 'N/A' %></td>
+                    <td><a href="<%= result.info.url %>" target="_blank">View</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } else { %>
+    <p>No results found for DBLP.</p>
+<% } %>
 
-<h2>arXiv:</h2>
-<ul>
-    <% if (arXiv_results.length) { %>
-        <% arXiv_results.forEach(result => { %>
-            <li>
-                <h2><a href="<%= result.id[0] %>">
-                    <%= result.title[0] %>
-                </a></h2>
-                <p><%= result.summary[0] %></p>
-                <p>Authors: <%= result.author ? result.author.map(a => a.name[0]).join(', ') : 'Unknown authors' %></p>
-                <p>Published: <%= result.published[0] %></p>
-            </li>
-        <% }); %>
-    <% } else { %>
-        <li>No results found.</li>
-    <% } %>
-</ul>
+<!-- arXiv Results Table -->
+<h2>arXiv Results</h2>
+<% if (arXiv_results && arXiv_results.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Summary</th>
+                <th>Authors</th>
+                <th>Published Date</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% arXiv_results.forEach(result => { %>
+                <tr>
+                    <td><%= result.title[0] %></td>
+                    <td><%= result.summary[0].substring(0, 100) %>...</td> <!-- Limit summary for readability -->
+                    <td><%= result.author ? result.author.map(a => a.name[0]).join(', ') : 'Unknown authors' %></td>
+                    <td><%= result.published[0] %></td>
+                    <td><a href="<%= result.id[0] %>" target="_blank">View</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } else { %>
+    <p>No results found for arXiv.</p>
+<% } %>

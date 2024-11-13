@@ -4,7 +4,7 @@ module.exports.search = async function (req, res) {
     console.log("At Arxiv search page");
 
     // Capture query parameters from the request or set default values
-    const query = req.query.q || "electron";  // default search query
+    const query = req.query.q || "Artificial Intelligence";  // default search query
     const start = req.query.start || 0;       // starting index for results
     const maxResults = req.query.max_results || 10;  // max results per request
     const sortBy = req.query.sortBy || "relevance"; // sorting criterion
