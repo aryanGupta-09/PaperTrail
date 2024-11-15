@@ -1,2 +1,22 @@
-<h1>Home Page</h1>
-<a href="/fetch-data" id="searchLink">Fetch Data</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+
+    <!-- Link to redirect to the fetch-data route -->
+    <a href="#" id="searchLink">Search Papers by Title</a>
+
+    <script>
+        // Redirect to the render endpoint when the link is clicked
+        document.getElementById('searchLink').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior
+            window.location.href = '/fetch-data/render'; // Redirect to the render endpoint
+        });
+    </script>
+</body>
+</html>

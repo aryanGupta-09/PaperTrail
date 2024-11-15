@@ -1,106 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data from Sources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #feedback {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        #feedback.loading {
+            color: orange;
+        }
+        #feedback.success {
+            color: green;
+        }
+        #feedback.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
 <h1>Data from Sources:</h1>
+
+<!-- Search Bar and Button -->
+<div>
+    <input type="text" id="search-bar" placeholder="Search..." />
+    <button id="search-button" onclick="handleButtonClick()">Search</button>
+    <p id="feedback"></p>
+</div>
+
+<script>
+    function handleButtonClick() {
+        const query = document.getElementById("search-bar").value.trim(); 
+        console.log("Button clicked! Query:", query);  // Log the query
+
+        if (query) {
+    console.log("Valid query:", query); // Log if the query is valid
+
+    fetch(`/fetch-data/json?q=${encodeURIComponent(query)}`)
+        .then(response => {
+            console.log("Raw response headers:", response); // Log the raw response object headers
+            return response.text();  // Parse the response as plain text
+        })
+        .then(rawText => {
+            console.log("Raw response text:", rawText); // Log the raw text response
+            try {
+                const data = JSON.parse(rawText); // Try parsing it as JSON to verify
+                console.log("Parsed data:", data); // Log the parsed JSON
+                updateResults(data); // Update the UI with the fetched data
+            } catch (parseError) {
+                console.error("Parsing error:", parseError); // Log if JSON parsing fails
+                const feedbackElement = document.getElementById('feedback');
+                feedbackElement.textContent = "Received data is not valid JSON.";
+                feedbackElement.className = "error";
+            }
+        })
+        .catch(error => {
+            console.error("Error caught:", error);  // Log the error object
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.textContent = "An error occurred while fetching data.";
+            feedbackElement.className = "error";
+        });
+}
+else {
+            console.log("No query entered. Please enter a search term.");
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.textContent = "Please enter a search term.";
+            feedbackElement.className = "error";
+        }
+    }
+
+    function updateResults(data) {
+        // Clear and dynamically update results tables based on API response
+
+        // SerpAPI Results
+        const serpapiTableBody = document.querySelector("#serpapi-results");
+        serpapiTableBody.innerHTML = ""; // Clear existing rows
+        console.log(data.serpapi_results);
+        if (data.serpapi_results?.length) {
+            data.serpapi_results.forEach(result => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${result.title || "Unknown"}</td>
+                    <td>${result.snippet || "No snippet available"}</td>
+                    <td>${result.publication_info?.authors?.map(a => a.name).join(", ") || "Unknown"}</td>
+                    <td>${result.publication_info?.summary?.match(/\b(19|20)\d{2}\b/)?.[0] || "Unknown"}</td>
+                    <td><a href="${result.link}" target="_blank">View</a></td>
+                `;
+                serpapiTableBody.appendChild(row);
+            });
+        } else {
+            serpapiTableBody.innerHTML = "<tr><td colspan='5'>No results found</td></tr>";
+        }
+
+        // DBLP Results
+        const dblpTableBody = document.querySelector("#dblp-results");
+        dblpTableBody.innerHTML = "";
+        if (data.dblp_results?.length) {
+            data.dblp_results.forEach(result => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${result.info.title || "Unknown Title"}</td>
+                    <td>${Array.isArray(result.info.authors?.author)
+                        ? result.info.authors.author.map(a => a.text).join(", ")
+                        : result.info.authors?.author?.text || "Unknown authors"}</td>
+                    <td>${result.info.year || "N/A"}</td>
+                    <td><a href="${result.info.url}" target="_blank">View</a></td>
+                `;
+                dblpTableBody.appendChild(row);
+            });
+        } else {
+            dblpTableBody.innerHTML = "<tr><td colspan='4'>No results found</td></tr>";
+        }
+
+        // arXiv Results
+        const arxivTableBody = document.querySelector("#arxiv-results");
+arxivTableBody.innerHTML = "";
+
+if (data.arXiv_results?.length) {
+    data.arXiv_results.forEach(result => {
+        const row = document.createElement("tr");
+        
+        // Check if result.title exists, and use the first element if it's an array
+        const title = result.title || "Unknown Title";
+        
+        // Check if result.summary exists, and truncate if it's too long
+        const summary = result.summary.substring(0, 100) + "..." || "No summary available";
+        
+        // Check if result.author is an array and join names, otherwise fallback to "Unknown authors"
+        const authors = Array.isArray(result.author) 
+            ? result.author.map(a => a.name || "Unknown Author").join(", ") 
+            : "Unknown authors";
+        
+        // Check if result.published exists and use it, otherwise fallback to "Unknown Date"
+        const publishedDate = result.published || "Unknown Date";
+        
+        // Check if result.id exists
+        const viewLink = result.id ? `<a href="${result.id}" target="_blank">View</a>` : "No link available";
+
+        // Build row content
+        row.innerHTML = `
+            <td>${title}</td>
+            <td>${summary}</td>
+            <td>${authors}</td>
+            <td>${publishedDate}</td>
+            <td>${viewLink}</td>
+        `;
+        
+        // Append row to the table body
+        arxivTableBody.appendChild(row);
+    });
+} else {
+    arxivTableBody.innerHTML = "<tr><td colspan='5'>No results found</td></tr>";
+}
+
+    }
+</script>
+
 
 <!-- SerpAPI Results Table -->
 <h2>SerpAPI Results</h2>
-<% if (serpapi_results && serpapi_results.organic_results && serpapi_results.organic_results.length) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Snippet</th>
-                <th>Authors</th>
-                <th>Year</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% serpapi_results.organic_results.forEach(result => { %>
-                <tr>
-                    <td><%= result.title %></td>
-                    <td><%= result.snippet %></td>
-
-                    <td>
-                        <% if (result.publication_info && result.publication_info.authors) { %>
-                            <%= result.publication_info.authors.map(author => author.name).join(', ') %>
-                        <% } else { %>
-                            Unknown
-                        <% } %>
-                    </td>
-
-                    <td>
-                        <% if (result.publication_info && result.publication_info.summary) { %>
-                            <% const yearMatch = result.publication_info.summary.match(/\b(19|20)\d{2}\b/); %>
-                            <%= yearMatch ? yearMatch[0] : 'Unknown' %>
-                        <% } else { %>
-                            Unknown
-                        <% } %>
-                    </td>
-                    
-                    <td><a href="<%= result.link %>" target="_blank">View</a></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } else { %>
-    <p>No results found for SerpAPI.</p>
-<% } %>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Snippet</th>
+            <th>Authors</th>
+            <th>Year</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody id="serpapi-results"></tbody>
+</table>
 
 <!-- DBLP Results Table -->
 <h2>DBLP Results</h2>
-<% if (dblp_results && dblp_results.length) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Authors</th>
-                <th>Year</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% dblp_results.forEach(result => { %>
-                <tr>
-                    <td><%= result.info.title %></td>
-                    <td>
-                        <%= Array.isArray(result.info.authors?.author)
-                            ? result.info.authors.author.map(a => a.text).join(', ')
-                            : result.info.authors?.author?.text || 'Unknown authors' %>
-                    </td>
-                    <td><%= result.info.year || 'N/A' %></td>
-                    <td><a href="<%= result.info.url %>" target="_blank">View</a></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } else { %>
-    <p>No results found for DBLP.</p>
-<% } %>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Authors</th>
+            <th>Year</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody id="dblp-results"></tbody>
+</table>
 
 <!-- arXiv Results Table -->
 <h2>arXiv Results</h2>
-<% if (arXiv_results && arXiv_results.length) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Summary</th>
-                <th>Authors</th>
-                <th>Published Date</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% arXiv_results.forEach(result => { %>
-                <tr>
-                    <td><%= result.title[0] %></td>
-                    <td><%= result.summary[0].substring(0, 100) %>...</td> <!-- Limit summary for readability -->
-                    <td><%= result.author ? result.author.map(a => a.name[0]).join(', ') : 'Unknown authors' %></td>
-                    <td><%= result.published[0] %></td>
-                    <td><a href="<%= result.id[0] %>" target="_blank">View</a></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } else { %>
-    <p>No results found for arXiv.</p>
-<% } %>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Summary</th>
+            <th>Authors</th>
+            <th>Published Date</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody id="arxiv-results"></tbody>
+</table>
+
+</body>
+</html>
