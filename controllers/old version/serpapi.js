@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { SERP_API_KEY } = require('../api_keys');
+const { SERP_API_KEY } = require('../../api_keys');
 
 module.exports.search = async function (req, res) {
     console.log("At search page");
