@@ -7,5 +7,6 @@ console.log("Router loaded");
 
 router.get("/", homeController.home);
 router.use("/fetch-data", require("./fetch-data"));
+router.use("/authors", require("./authors"));
 
 module.exports = router;

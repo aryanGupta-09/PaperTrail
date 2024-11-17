@@ -2,8 +2,8 @@ const axios = require("axios");
 const { SERP_API_KEY } = require("../api_keys");
 const { parseStringPromise } = require("xml2js");
 
-module.exports.fetch = async function (req, res) {
-    console.log("At fetch page");
+module.exports.fetchAuthors = async function (req, res) {
+    console.log("At authors page");
     console.log("Query parameters received:", req.query);
 
     let serpapi_results = [];
@@ -17,7 +17,7 @@ module.exports.fetch = async function (req, res) {
             // SerpAPI Call
             const serpResponse = await axios.get('https://serpapi.com/search', {
                 params: {
-                    q: query,
+                    q: "author:"+query,
                     engine: 'google_scholar',
                     api_key: SERP_API_KEY
                 }
@@ -27,7 +27,7 @@ module.exports.fetch = async function (req, res) {
 
             // DBLP Call
             const dblpResponse = await axios.get('https://dblp.org/search/publ/api', {
-                params: { format: 'json', h: 30, f: 0, q: query }
+                params: { format: 'json', h: 30, f: 0, q: query+'$' }
             });
             dblp_results = dblpResponse.data.result?.hits?.hit || [];
             console.log("DBLP results fetched successfully");
@@ -35,7 +35,7 @@ module.exports.fetch = async function (req, res) {
             // ArXiv Call
             const arxivResponse = await axios.get('http://export.arxiv.org/api/query', {
                 params: {
-                    search_query: `all:${query}`,
+                    search_query: `au:${query}`,
                     start: req.query.start || 0,
                     max_results: req.query.max_results || 10,
                     sortBy: req.query.sortBy || "relevance",
@@ -61,13 +61,15 @@ module.exports.fetch = async function (req, res) {
 
     // Determine whether to render HTML or return JSON
     if (req.query.render) {
-        return res.render("fetch", {
-            title: "PaperTrail | Fetch",
+        console.log("author rendering")
+        return res.render("authors", {
+            title: "PaperTrail | FetchAuthors",
             serpapi_results,
             dblp_results,
             arXiv_results
         });
     } else {
+        console.log("author json");
         return res.json({
             serpapi_results,
             dblp_results,

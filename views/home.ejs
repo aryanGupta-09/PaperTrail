@@ -11,11 +11,19 @@
     <!-- Link to redirect to the fetch-data route -->
     <a href="#" id="searchLink">Search Papers by Title</a>
 
+    <!-- Link to redirect to the authors route -->
+    <a href="#" id="authorSearchLink">Search Papers by Authors</a>
+
     <script>
-        // Redirect to the render endpoint when the link is clicked
+        // Redirect logic for the links
         document.getElementById('searchLink').addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior
-            window.location.href = '/fetch-data/render'; // Redirect to the render endpoint
+            window.location.href = '/fetch-data/render'; // Redirect to the fetch-data render endpoint
+        });
+
+        document.getElementById('authorSearchLink').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior
+            window.location.href = '/authors/render'; // Redirect to the authors render endpoint
         });
     </script>
 </body>
