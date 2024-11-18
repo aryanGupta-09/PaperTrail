@@ -9,6 +9,7 @@ module.exports.fetch = async function (req, res) {
     let serpapi_results = [];
     let dblp_results = [];
     let arXiv_results = [];
+    let combined_results = []; // Array to hold the normalized data
 
     if (req.query.q) {
         const query = req.query.q;
@@ -47,9 +48,34 @@ module.exports.fetch = async function (req, res) {
             if (!Array.isArray(arXiv_results)) {
                 arXiv_results = [arXiv_results]; // Ensure consistency for single result
             }
-            //console.log("ArXiv results fetched successfully",arXiv_results);
-            //console.log("authors",arXiv_results[0].author);  // To see the structure of each author object
+            console.log("ArXiv results fetched successfully");
 
+            // Combine results into a unified format
+            combined_results = [
+                ...serpapi_results.map(result => ({
+                    title: result.title || "Unknown",
+                    authors: result.publication_info?.authors?.map(author => author.name).join(", ") || "Unknown",
+                    year: (result.publication_info?.summary?.match(/\b(19|20)\d{2}\b/) || [])[0] || "Unknown",
+                    snippet: result.snippet || "No snippet available",
+                    link: result.link || "#"
+                })),
+                ...dblp_results.map(result => ({
+                    title: result.info.title || "Unknown",
+                    authors: result.info.authors?.author?.map(author => author.text).join(", ") || "Unknown",
+                    year: result.info.year || "Unknown",
+                    snippet: "No snippet available", // DBLP does not provide a snippet
+                    link: result.info.url || "#"
+                })),
+                ...arXiv_results.map(result => ({
+                    title: result.title || "Unknown",
+                    authors: Array.isArray(result.author)
+                        ? result.author.map(author => author.name).join(", ")
+                        : result.author?.name || "Unknown",
+                    year: result.published?.slice(0, 4) || "Unknown",
+                    snippet: result.summary || "No snippet available",
+                    link: result.id || "#"
+                }))
+            ];
 
         } catch (error) {
             console.error('Error during API fetch:', error.message);
@@ -65,13 +91,15 @@ module.exports.fetch = async function (req, res) {
             title: "PaperTrail | Fetch",
             serpapi_results,
             dblp_results,
-            arXiv_results
+            arXiv_results,
+            combined_results // Pass combined results to the EJS template
         });
     } else {
         return res.json({
             serpapi_results,
             dblp_results,
-            arXiv_results
+            arXiv_results,
+            combined_results // Include combined results in the JSON response
         });
     }
 };
