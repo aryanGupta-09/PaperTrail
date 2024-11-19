@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const expressLayouts = require("express-ejs-layouts");
+const dbs = require("./config/sequelize");
 
 app.use(express.static("./assets"));
 
