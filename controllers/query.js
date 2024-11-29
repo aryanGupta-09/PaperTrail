@@ -40,7 +40,7 @@ const buildDynamicQuery = async (filters) => {
 
     // Add WHERE conditions dynamically
     const conditions = [];
-    // if (filters.title) conditions.push(['p.title', 'like', `%${filters.title}%`]);
+    if (filters.title) conditions.push(['p.title', '=', filters.title]);
     if (filters.year) conditions.push(['m.year', '=', filters.year]);
     if (filters.citations) conditions.push(['m.n_citation', '>=', filters.citations]);
     if (filters.venue) conditions.push(['v.raw', 'like', `%${filters.venue}%`]);
@@ -93,6 +93,14 @@ const buildDynamicQuery = async (filters) => {
 
     // Group by paper ID to aggregate authors and fields
     baseQuery.groupBy('p.id');
+
+    // Order results: exact matches first, then full-text matches
+    baseQuery.orderByRaw(`
+        CASE
+            WHEN p.title = ? THEN 0
+            ELSE 1
+        END, p.title
+    `, [filters.title]);
 
     return await baseQuery;
 };
