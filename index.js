@@ -1,8 +1,10 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const expressLayouts = require("express-ejs-layouts");
-const dbs = require("./config/sequelize");
+// const dbs = require("./config/sequelize");
+const db = require("./config/knex");
 
 app.use(express.static("./assets"));
 
@@ -14,6 +16,8 @@ app.set("views", "./views");
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use("/", require("./routes"));
 

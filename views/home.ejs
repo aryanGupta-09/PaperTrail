@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-</head>
-<body>
-    <h1>Home Page</h1>
-
-    <!-- Link to redirect to the fetch-data route -->
-    <a href="#" id="searchLink">Search Papers by Title</a>
-
-    <!-- Link to redirect to the authors route -->
-    <a href="#" id="authorSearchLink">Search Papers by Authors</a>
-
-    <script>
-        // Redirect logic for the links
-        document.getElementById('searchLink').addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior
-            window.location.href = '/fetch-data/render'; // Redirect to the fetch-data render endpoint
-        });
-
-        document.getElementById('authorSearchLink').addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior
-            window.location.href = '/authors/render'; // Redirect to the authors render endpoint
-        });
-    </script>
-</body>
-</html>
+<h1>Home Page</h1>
+<h2>Search by papers</h2>
+<form action="/search" method="post">
+    <input type="text" name="title" placeholder="Enter paper title">
+    <input type="text" name="authors" placeholder="Enter authors, separated by commas" />
+    <input type="text" name="venue" placeholder="Enter paper venue">
+    <input type="number" name="citations" placeholder="Enter minimum number of citations" min="0">
+    <input type="number" name="year" placeholder="Enter publication year" min="0" max="2024">
+    <input type="text" name="field" placeholder="Enter the field of study">
+    <button type="submit">Search</button>
+</form>

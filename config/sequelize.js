@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 
-const dbNames = ['paper_trail'];
-const username = 'researcher';
-const password = 'researcher';
+const dbNames = ['researchsystem2'];
+const username = 'root';
+const password = 'root';
 const host = 'localhost';
 
 // Function to initialize Sequelize instances
