@@ -10,7 +10,7 @@ const buildDynamicQuery = async (filters) => {
         },
         venue: () => {
             baseQuery.leftJoin('Papers_Venue as pv', 'p.id', 'pv.paper_id')
-                    .leftJoin('Venue as v', 'pv.venue_id', 'v.id');
+                .leftJoin('Venue as v', 'pv.venue_id', 'v.id');
         },
         authors: () => {
             baseQuery.leftJoin('Paper_Authors as pa', 'p.id', 'pa.paper_id')
@@ -27,6 +27,7 @@ const buildDynamicQuery = async (filters) => {
     joins.authors();
     joins.field();
 
+    // Select the required columns
     baseQuery.select(
         'p.id',
         'p.title',
@@ -39,31 +40,58 @@ const buildDynamicQuery = async (filters) => {
 
     // Add WHERE conditions dynamically
     const conditions = [];
-    if (filters.title) conditions.push(['p.title', 'like', `%${filters.title}%`]);
+    // if (filters.title) conditions.push(['p.title', 'like', `%${filters.title}%`]);
     if (filters.year) conditions.push(['m.year', '=', filters.year]);
-    if (filters.citations) conditions.push(['m.n_citation', '>', filters.citations]);
+    if (filters.citations) conditions.push(['m.n_citation', '>=', filters.citations]);
     if (filters.venue) conditions.push(['v.raw', 'like', `%${filters.venue}%`]);
     if (filters.field) conditions.push(['f.topic', 'like', `%${filters.field}%`]);
 
-    // Apply conditions
+    // Apply exact match conditions
     conditions.forEach((condition) => {
         baseQuery.where(condition[0], condition[1], condition[2]);
     });
 
-    // Apply author condition
+    // Apply full-text search condition on title
+    if (filters.title) {
+        baseQuery.whereRaw('MATCH(p.title) AGAINST(? IN NATURAL LANGUAGE MODE)', [filters.title]);
+    }
+
+    // Apply phonetic search for authors
     if (filters.authors) {
-        baseQuery.where(function () {
-            filters.authors.forEach((author, index) => {
-                if (index === 0) {
-                    this.where('a.name', 'like', `%${author}%`);
-                } else {
-                    this.orWhere('a.name', 'like', `%${author}%`);
-                }
-            });
+        baseQuery.whereIn('p.id', function () {
+            this.select('pa.paper_id')
+                .from('Paper_Authors as pa')
+                .join('Authors as a', 'pa.author_id', 'a.id')
+                .where(function () {
+                    filters.authors.forEach((author) => {
+                        const wordCount = author.trim().split(' ').length;
+                        if (wordCount > 1) {
+                            // Multiple-word input: Compare SOUNDEX of full name
+                            this.orWhereRaw(`SOUNDEX(a.name) = SOUNDEX(?)`, [author]);
+                        } else {
+                            // Single-word input: Compare SOUNDEX with each word in a.name
+                            this.orWhere(function () {
+                                // Split a.name into words and compare each word
+                                this.whereRaw(`
+                                    EXISTS (
+                                        SELECT 1 FROM (
+                                        SELECT TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(a.name, ' ', seq.n), ' ', -1)) AS name_part
+                                        FROM (
+                                            SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5
+                                        ) seq
+                                        WHERE CHAR_LENGTH(a.name) - CHAR_LENGTH(REPLACE(a.name, ' ', '')) + 1 >= seq.n
+                                        ) name_parts
+                                        WHERE SOUNDEX(name_parts.name_part) = SOUNDEX(?)
+                                    )
+                                    `, [author]);
+                            });
+                        }
+                    });
+                });
         });
     }
 
-    // Group by paper ID to aggregate authors
+    // Group by paper ID to aggregate authors and fields
     baseQuery.groupBy('p.id');
 
     return await baseQuery;
