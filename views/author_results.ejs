@@ -2,7 +2,7 @@
     <h3 style="margin: 0;">
         <a href="/">Back</a>
     </h3>
-    <h1 style="margin: 0; text-align: center; flex-grow: 1;">Search Results</h1>
+    <h1 style="margin: 0; text-align: center; flex-grow: 1;">Author Search Results</h1>
 </div>
 
 <style>
@@ -34,31 +34,21 @@
 <table>
     <thead>
         <tr>
-            <th>DOI</th>
-            <th>Title</th>
-            <th>Authors</th>
-            <th>Venue</th>
-            <th>Citations</th>
-            <th>Year</th>
-            <th>Fields of Study</th>
+            <th>Author ID</th>
+            <th>Author Name</th>
         </tr>
     </thead>
     <tbody>
         <% if (results && results.length > 0) { %>
             <% results.forEach(result => { %>
                 <tr>
-                    <td><%= result.id %></td>
-                    <td><%= result.title %></td>
-                    <td><%= result.authors || "N/A" %></td>
-                    <td><%= result.venue || "N/A" %></td>
-                    <td><%= result.citations !== undefined ? result.citations : "N/A" %></td>
-                    <td><%= result.year || "N/A" %></td>
-                    <td><%= result.fields || "N/A" %></td>
+                    <td><%= result.author_id %></td>
+                    <td><%= result.author_name %></td>
                 </tr>
             <% }) %>
         <% } else { %>
             <tr>
-                <td colspan="7" style="text-align: center;">No papers found matching the search criteria.</td>
+                <td colspan="2" style="text-align: center;">No authors found matching the search criteria.</td>
             </tr>
         <% } %>
     </tbody>

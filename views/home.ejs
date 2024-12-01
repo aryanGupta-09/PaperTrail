@@ -49,3 +49,17 @@
 
     <button type="submit">Search</button>
 </form>
+
+<h2>Search for Authors</h2>
+<form action="/search_authors" method="post">
+
+    <label for="min_papers">Min. Papers:</label>
+    <input type="number" id="min_papers" name="min_papers" placeholder="papers" min="0"
+        style="margin-bottom: 10px;"><br>
+
+    <label for="min_patents">Min. Patents:</label>
+    <input type="number" id="min_patents" name="min_patents" placeholder="patents" min="0"
+        style="margin-bottom: 10px;"><br>
+
+    <button type="submit">Search</button>
+</form>

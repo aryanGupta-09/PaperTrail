@@ -223,7 +223,7 @@ module.exports.handleQuery = async function (req, res) {
         // Process the response data
         const remoteResults = response.data.results;
 
-        const combinedResults = [...localResults, ...remoteResults];
+        const combinedResults = [...(localResults ?? []), ...(remoteResults ?? [])];
 
         // Perform fuzzy matching to remove duplicates
         const results = filters.fuzzy ? fuzzyMatching(combinedResults) : combinedResults;
