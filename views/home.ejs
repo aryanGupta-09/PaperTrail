@@ -1,4 +1,5 @@
 <h1>Home Page</h1>
+
 <h2>Search by papers</h2>
 <form action="/search" method="post">
     <label for="title">Title:</label>
@@ -20,4 +21,24 @@
     <input type="text" id="field" name="field" placeholder="field" style="margin-bottom: 10px;"><br>
 
     <button type="submit">Search</button>
+</form>
+
+<h2>Search by Patents</h2>
+<form action="/search_patents" method="post">
+    <label for="patent_title">Patent Title:</label>
+    <input type="text" id="patent_title" name="patent_title" placeholder="Patent Title" style="margin-bottom: 10px;"><br>
+
+    <label for="patent_year">Patent Year:</label>
+    <input type="number" id="patent_year" name="patent_year" placeholder="Patent Year" min="0" max="2024" style="margin-bottom: 10px;"><br>
+
+    <label for="author_name">Author Name:</label>
+    <input type="text" id="author_name" name="author_name" placeholder="Author Name" style="margin-bottom: 10px;"><br>
+
+    <label for="assignee_organization">Assignee Organization:</label>
+    <input type="text" id="assignee_organization" name="assignee_organization" placeholder="Assignee Organization" style="margin-bottom: 10px;"><br>
+
+    <label for="patent_abstract">Patent Abstract:</label>
+    <input type="text" id="patent_abstract" name="patent_abstract" placeholder="Patent Abstract" style="margin-bottom: 10px;"><br>
+
+    <button type="submit">Search Patents</button>
 </form>
