@@ -1,6 +1,7 @@
 const db = require("../config/knex");
 const axios = require('axios');
 const mysql = require('mysql');
+const Fuse = require('fuse.js');
 
 const buildDynamicQuery = async (filters) => {
     const baseQuery = db('Papers as p');
@@ -147,6 +148,51 @@ const mapBuildDynamicQueryToRemote = async (sql) => {
     return remoteSQL;
 };
 
+function fuzzyMatching(results) {
+    const options = {
+        keys: ['title'],
+        threshold: 0.3,
+        includeScore: true
+    };
+
+    const fuse = new Fuse(results, options);
+    const seen = new Map(); // Change to Map to store ID with title
+    const fuzzyResults = [];
+
+    results.forEach(item => {
+        if (!seen.has(item.title)) {
+            const matches = fuse.search(item.title);
+            seen.set(item.title, item.id);
+            fuzzyResults.push(item);
+
+            // Add similar titles to seen map with their IDs
+            matches.forEach(match => {
+                if (match.score < options.threshold) {
+                    seen.set(match.item.title, match.item.id);
+                }
+            });
+        } else {
+            // Only merge if IDs match
+            const existingItem = fuzzyResults.find(result =>
+                result.title === item.title && result.id === item.id
+            );
+
+            if (existingItem) {
+                Object.keys(item).forEach(key => {
+                    if (item[key] && !existingItem[key]) {
+                        existingItem[key] = item[key];
+                    }
+                });
+            } else {
+                // Different ID means it's a different paper, add as new item
+                fuzzyResults.push(item);
+            }
+        }
+    });
+
+    return fuzzyResults;
+}
+
 module.exports.handleQuery = async function (req, res) {
     const filters = req.body;
 
@@ -177,11 +223,16 @@ module.exports.handleQuery = async function (req, res) {
         // Process the response data
         const remoteResults = response.data.results;
 
+        const combinedResults = [...localResults, ...remoteResults];
+
+        // Perform fuzzy matching to remove duplicates
+        const results = fuzzyMatching(combinedResults);
+
         // return res.status(200).json(results);
 
         return res.render("paper_results", {
             title: "PaperTrail",
-            results: [...localResults, ...(Array.isArray(remoteResults) ? remoteResults : [])], // Combine and pass the results to the view for display
+            results
         });
     } catch (error) {
         console.error('Error executing query:', error);
