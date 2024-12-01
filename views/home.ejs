@@ -1,11 +1,23 @@
 <h1>Home Page</h1>
 <h2>Search by papers</h2>
 <form action="/search" method="post">
-    <input type="text" name="title" placeholder="Enter paper title">
-    <input type="text" name="authors" placeholder="Enter authors, separated by commas" />
-    <input type="text" name="venue" placeholder="Enter paper venue">
-    <input type="number" name="citations" placeholder="Enter minimum number of citations" min="0">
-    <input type="number" name="year" placeholder="Enter publication year" min="0" max="2024">
-    <input type="text" name="field" placeholder="Enter the field of study">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" placeholder="title" style="margin-bottom: 10px;"><br>
+
+    <label for="authors">Authors:</label>
+    <input type="text" id="authors" name="authors" placeholder="author1, author2" style="margin-bottom: 10px;"><br>
+
+    <label for="venue">Venue:</label>
+    <input type="text" id="venue" name="venue" placeholder="venue" style="margin-bottom: 10px;"><br>
+
+    <label for="citations">Min. Citations:</label>
+    <input type="number" id="citations" name="citations" placeholder="citations" min="0" style="margin-bottom: 10px;"><br>
+
+    <label for="year">Year of publication:</label>
+    <input type="number" id="year" name="year" placeholder="year" min="0" max="2024" style="margin-bottom: 10px;"><br>
+
+    <label for="field">Field of Study:</label>
+    <input type="text" id="field" name="field" placeholder="field" style="margin-bottom: 10px;"><br>
+
     <button type="submit">Search</button>
 </form>
