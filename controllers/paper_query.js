@@ -42,6 +42,7 @@ const buildDynamicQuery = async (filters) => {
 
     // Add WHERE conditions dynamically
     const conditions = [];
+    if (filters.id) conditions.push(['p.id', '=', filters.id]);
     if (filters.title) conditions.push(['p.title', 'like', `%${filters.title}%`]);
     if (filters.year) conditions.push(['m.year', '=', filters.year]);
     if (filters.citations) conditions.push(['m.n_citation', '>=', filters.citations]);
@@ -178,7 +179,7 @@ module.exports.handleQuery = async function (req, res) {
 
         // return res.status(200).json(results);
 
-        return res.render("results", {
+        return res.render("paper_results", {
             title: "PaperTrail",
             results: [...localResults, ...(Array.isArray(remoteResults) ? remoteResults : [])], // Combine and pass the results to the view for display
         });

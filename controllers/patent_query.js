@@ -46,7 +46,6 @@ module.exports.handleQuery = async function (req, res) {
 
         // Process the response data
         const remoteResults = response.data.data;
-        console.log(response.data.data);
 
         // Render the results page
         return res.render("patent_results", {

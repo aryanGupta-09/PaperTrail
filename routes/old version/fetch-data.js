@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const fetchController = require("../controllers/fetch");
+const fetchController = require("../../controllers/fetch");
 
 // API Endpoint: Returns JSON response
 router.get("/json", fetchController.fetch);

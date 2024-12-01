@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const homeController = require("../controllers/home");
-const queryController = require("../controllers/query");
+const paperQueryController = require("../controllers/paper_query");
 const patentQueryController = require("../controllers/patent_query");
 
 console.log("Router loaded");
 
 router.get("/", homeController.home);
 
-router.post("/search", queryController.handleQuery);
+router.post("/search_papers", paperQueryController.handleQuery);
 
 router.post("/search_patents", patentQueryController.handleQuery);
 
