@@ -1,4 +1,4 @@
-<h1>Home Page</h1>
+<!-- <h1>Home Page</h1>
 
 <h2>Search by papers</h2>
 <form action="/search_papers" method="post">
@@ -63,3 +63,480 @@
 
     <button type="submit">Search</button>
 </form>
+ -->
+
+
+<!-- ver2 -->
+
+ <!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Trail</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #3b5998;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .form-container input[type="checkbox"] {
+            width: auto;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            background-color: #3b5998;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #2d4373;
+        }
+
+        .form-container .checkbox-label {
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .form-container hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .form-container .form-footer {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #3b5998;
+            font-size: 16px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Paper Trail</h1>
+
+    <div class="form-container">
+        <h2>Search by Papers</h2>
+        <form action="/search_papers" method="post">
+
+            <label for="id">DOI:</label>
+            <input type="text" id="id" name="id" placeholder="DOI">
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Title">
+
+            <label for="authors">Authors:</label>
+            <input type="text" id="authors" name="authors" placeholder="Author1, Author2">
+
+            <label for="venue">Venue:</label>
+            <input type="text" id="venue" name="venue" placeholder="Venue">
+
+            <label for="citations">Min. Citations:</label>
+            <input type="number" id="citations" name="citations" placeholder="Citations" min="0">
+
+            <label for="year">Year of Publication:</label>
+            <input type="number" id="year" name="year" placeholder="Year" min="0" max="2024">
+
+            <label for="field">Field of Study:</label>
+            <input type="text" id="field" name="field" placeholder="Field of Study">
+
+            <label for="fuzzy" class="checkbox-label">Fuzzy Matching:</label>
+            <input type="checkbox" id="fuzzy" name="fuzzy">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="form-container">
+        <h2>Search by Patents</h2>
+        <form action="/search_patents" method="post">
+
+            <label for="patent_id">ID:</label>
+            <input type="text" id="patent_id" name="patent_id" placeholder="ID">
+
+            <label for="patent_title">Title:</label>
+            <input type="text" id="patent_title" name="patent_title" placeholder="Title">
+
+            <label for="patent_year">Year:</label>
+            <input type="number" id="patent_year" name="patent_year" placeholder="Year" min="0" max="2024">
+
+            <label for="author_name">Author Name:</label>
+            <input type="text" id="author_name" name="author_name" placeholder="Author">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="form-container">
+        <h2>Search for Authors</h2>
+        <form action="/search_authors" method="post">
+
+            <label for="min_papers">Min. Papers:</label>
+            <input type="number" id="min_papers" name="min_papers" placeholder="Papers" min="0">
+
+            <label for="min_patents">Min. Patents:</label>
+            <input type="number" id="min_patents" name="min_patents" placeholder="Patents" min="0">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="form-footer">
+        <a href="/" class="back-link">Back to Homepage</a>
+    </div>
+
+</body>
+
+</html> -->
+
+
+<!-- ver3 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Trail</title>
+    <style>
+     body {
+    font-family: 'Arial', sans-serif;
+    background: #002679;  /* Solid background color */
+    background: radial-gradient(circle at top right, #000000 6%, #ffffff00), #ffffff; /* Radial gradient on top of solid color */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    position: relative; /* Important for positioning gradient blobs */
+}
+
+/* Gradient blob shapes */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #164dc2;  /* Solid background color */
+    background: radial-gradient(circle at top right, #2197e5 0.5%, #ffffff00), #f3fdff; /* Radial gradient with controllable radius */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    position: relative; /* Important for positioning gradient blobs */
+}
+
+/* Gradient blob shapes */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 500px; /* Blob size */
+    height: 500px; /* Blob size */
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184, 235, 255, 0.6) 50%, rgba(255, 255, 255, 0) 70%); /* Blurred edges for blob */
+    top: 10%;  /* Adjust to place blob */
+    left: 70%; /* Adjust to place blob */
+    pointer-events: none;
+    filter: blur(80px); /* Soft blur for edges */
+    box-shadow: 0 0 100px rgba(178, 255, 183, 0.6); /* Glowing soft shadow */
+    animation: blobAnimation 10s ease-in-out infinite;
+}
+
+body::after {
+    width: 600px;
+    height: 600px;
+    top: 60%; /* Adjust to place second blob */
+    left: 20%; /* Adjust to place second blob */
+    background: radial-gradient(circle, rgba(178, 233, 255, 0.5) 50%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(80px);
+    box-shadow: 0 0 120px rgba(0, 0, 0, 0.5); /* Larger glow */
+    animation: blobAnimation 12s ease-in-out infinite;
+}
+
+/* Animation for moving blob shapes */
+@keyframes blobAnimation {
+    0% {
+        transform: scale(1) translateX(0) translateY(0);
+    }
+    50% {
+        transform: scale(1.1) translateX(30px) translateY(20px);
+    }
+    100% {
+        transform: scale(1) translateX(0) translateY(0);
+    }
+}
+
+
+
+
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-top: 20px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #333;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+
+        .form-container input[type="checkbox"] {
+            width: auto;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            background: linear-gradient(135deg, #6bc1ff, #3b5998);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(135deg, #3b5998, #6bc1ff);
+        }
+
+        .form-container .checkbox-label {
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .form-container hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 20px 0;
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #3b5998;
+            font-size: 16px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+                width: 95%;
+            }
+        }
+        h1 {
+    font-family: 'Dancing Script', cursive;  /* Cursive font */
+    font-weight: bold;  /* Bold text */
+    text-align: center;
+    color: #08032c;
+    margin-top: 20px;
+    font-size: 4.5em;
+
+}
+
+    </style>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    
+    
+</head>
+
+<body>
+
+
+    <h1>Paper Trail</h1>
+
+    <div class="form-container">
+        <h2>Search by Papers</h2>
+        <form action="/search_papers" method="post">
+
+            <label for="id">DOI:</label>
+            <input type="text" id="id" name="id" placeholder="DOI">
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Title">
+
+            <label for="authors">Authors:</label>
+            <input type="text" id="authors" name="authors" placeholder="Author1, Author2">
+
+            <label for="venue">Venue:</label>
+            <input type="text" id="venue" name="venue" placeholder="Venue">
+
+            <label for="citations">Min. Citations:</label>
+            <input type="number" id="citations" name="citations" placeholder="Citations" min="0">
+
+            <label for="year">Year of Publication:</label>
+            <input type="number" id="year" name="year" placeholder="Year" min="0" max="2024">
+
+            <label for="field">Field of Study:</label>
+            <input type="text" id="field" name="field" placeholder="Field of Study">
+
+            <label for="fuzzy" class="checkbox-label">Fuzzy Matching:</label>
+            <input type="checkbox" id="fuzzy" name="fuzzy">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h2>Search by Patents</h2>
+        <form action="/search_patents" method="post">
+
+            <label for="patent_id">ID:</label>
+            <input type="text" id="patent_id" name="patent_id" placeholder="ID">
+
+            <label for="patent_title">Title:</label>
+            <input type="text" id="patent_title" name="patent_title" placeholder="Title">
+
+            <label for="patent_year">Year:</label>
+            <input type="number" id="patent_year" name="patent_year" placeholder="Year" min="0" max="2024">
+
+            <label for="author_name">Author Name:</label>
+            <input type="text" id="author_name" name="author_name" placeholder="Author">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h2>Search for Authors</h2>
+        <form action="/search_authors" method="post">
+
+            <label for="min_papers">Min. Papers:</label>
+            <input type="number" id="min_papers" name="min_papers" placeholder="Papers" min="0">
+
+            <label for="min_patents">Min. Patents:</label>
+            <input type="number" id="min_patents" name="min_patents" placeholder="Patents" min="0">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="form-footer">
+        <a href="/" class="back-link">Back to Homepage</a>
+    </div>
+
+</body>
+
+</html>
