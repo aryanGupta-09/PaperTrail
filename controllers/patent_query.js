@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 // Build dynamic query based on filters
 const buildDynamicQuery = (filters) => {
-    let query = 'SELECT p.patent_id, p.patent_title, p.patent_date, p.patent_year, a.author_name, p.patent_abstract ';
+    let query = 'SELECT p.patent_id, p.patent_title, p.patent_year, a.author_name, p.patent_abstract ';
 
     // Base from the patents table
     query += 'FROM patents AS p ';
@@ -70,4 +70,3 @@ module.exports.handleQuery = async function (req, res) {
         res.status(500).json({ error: 'An error occurred while processing the query.' });
     }
 };
-

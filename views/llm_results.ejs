@@ -1,0 +1,105 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3 style="margin: 0;">
+        <a href="/">Back</a>
+    </h3>
+    <h1 style="margin: 0; text-align: center; flex-grow: 1;">LLM Query Results</h1>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    h1 {
+        text-align: center;
+    }
+    h2 {
+        margin-top: 30px;
+    }
+</style>
+
+<div>
+    <!-- Papers Results -->
+    <% if (papers && papers.length > 0) { %>
+        <h2>Papers</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>DOI</th>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Venue</th>
+                    <th>Citations</th>
+                    <th>Year</th>
+                    <th>Fields of Study</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% papers.forEach(paper => { %>
+                    <tr>
+                        <td><%= paper.id %></td>
+                        <td><%= paper.title %></td>
+                        <td><%= paper.authors || "N/A" %></td>
+                        <td><%= paper.venue || "N/A" %></td>
+                        <td><%= paper.citations !== undefined ? paper.citations : "N/A" %></td>
+                        <td><%= paper.year || "N/A" %></td>
+                        <td><%= paper.fields || "N/A" %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <!-- Patents Results -->
+    <% if (patents && patents.length > 0) { %>
+        <h2>Patents</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Patent ID</th>
+                    <th>Patent Title</th>
+                    <th>Author Name</th>
+                    <th>Patent Year</th>
+                    <th>Patent Abstract</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (patents && patents.length > 0) { %>
+                    <% patents.forEach(patent => { %>
+                        <tr>
+                            <td><%= patent.id %></td>
+                            <td><%= patent.title %></td>
+                            <td><%= patent.author_name || "N/A" %></td>
+                            <td><%= patent.year || "N/A" %></td>
+                            <td><%= patent.patent_abstract || "N/A" %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" style="text-align: center;">No patents found matching the search criteria.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <!-- No Results -->
+    <% if ((!papers || papers.length === 0) && (!patents || patents.length === 0)) { %>
+        <h2 style="text-align: center;">No results found matching the query.</h2>
+    <% } %>
+</div>

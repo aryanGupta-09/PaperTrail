@@ -424,6 +424,32 @@ body::after {
             margin: 20px 0;
         }
 
+        .llm-query-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center contents horizontally */
+            justify-content: center; /* Center contents vertically */
+            text-align: center; /* Center the text */
+        }
+        .llm-query-container textarea {
+            width: 80%; /* Specific width for the LLM query textarea */
+        }
+
+        .powered-by {
+            font-size: 0.8em; /* Smaller text size */
+            color: gray; /* Grey text */
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px; /* Space between heading and this text */
+        }
+
+        .gemini-logo {
+            width: 16px; /* Adjust size for logo */
+            height: 16px; /* Keep logo proportional */
+            margin-left: 5px; /* Space between text and logo */
+        }
+
+
         .form-footer {
             text-align: center;
             font-size: 14px;
@@ -466,6 +492,23 @@ body::after {
 
 
     <h1>Paper Trail</h1>
+
+    <!-- New LLM Query Section -->
+    <div class="form-container llm-query-container">
+        <h2>LLM Query</h2>
+        <!-- <h2>LLM Query <span class="powered-by">Powered by Gemini <img src="assets/Google_Gemini_logo.png" alt="Gemini Logo" class="gemini-logo"></span></h2> -->
+        <form action="/llm_query" method="post">
+            <label for="llm_query">Enter Your Query in Natural Language:</label>
+            <textarea
+                id="llm_query" name="llm_query" rows="5" 
+                placeholder="E.g., Show all papers published in 2021 with more than 50 citations."
+                style="padding: 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.6); 
+                    background: rgba(255, 255, 255, 0.2); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
+                    color: #333; font-size: 14px; margin-bottom: 15px; width: 100%;"
+            ></textarea>
+            <button type="submit">Submit Query</button>
+        </form>
+    </div>
 
     <div class="form-container">
         <h2>Search by Papers</h2>
@@ -532,6 +575,20 @@ body::after {
             <button type="submit">Search</button>
         </form>
     </div>
+
+    <!-- New LLM Query Section
+    <div class="form-container">
+        <h2>LLM Query</h2>
+        <form action="/llm_query" method="post">
+
+            <label for="llm_query">Enter Your Query in Natural Language:</label>
+            <textarea id="llm_query" name="llm_query" rows="5" placeholder="E.g., Show all papers published in 2021 with more than 50 citations."
+                style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.2); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); color: #333; font-size: 14px; margin-bottom: 15px;"></textarea>
+
+            <button type="submit">Submit Query</button>
+        </form>
+    </div> -->
+
 
     <div class="form-footer">
         <a href="/" class="back-link">Back to Homepage</a>

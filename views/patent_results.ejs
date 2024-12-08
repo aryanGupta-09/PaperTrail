@@ -37,9 +37,7 @@
             <th>Patent ID</th>
             <th>Patent Title</th>
             <th>Author Name</th>
-            <th>Assignee Organization</th>
             <th>Patent Year</th>
-            <th>Patent Date</th>
             <th>Patent Abstract</th>
         </tr>
     </thead>
@@ -50,15 +48,13 @@
                     <td><%= patent.patent_id %></td>
                     <td><%= patent.patent_title %></td>
                     <td><%= patent.author_name || "N/A" %></td>
-                    <td><%= patent.assignee_organization || "N/A" %></td>
                     <td><%= patent.patent_year || "N/A" %></td>
-                    <td><%= patent.patent_date || "N/A" %></td>
                     <td><%= patent.patent_abstract || "N/A" %></td>
                 </tr>
             <% }) %>
         <% } else { %>
             <tr>
-                <td colspan="7" style="text-align: center;">No patents found matching the search criteria.</td>
+                <td colspan="5" style="text-align: center;">No patents found matching the search criteria.</td>
             </tr>
         <% } %>
     </tbody>
