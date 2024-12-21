@@ -1,6 +1,5 @@
 const db = require("../config/knex");
 const axios = require('axios');
-const mysql = require('mysql');
 const Fuse = require('fuse.js');
 
 const buildDynamicQueryPaperLocal = async (filters) => {

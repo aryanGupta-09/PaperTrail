@@ -1,4 +1,3 @@
-const { GEMINI_API_KEY } = require("../api_keys");
 const db = require("../config/knex");
 const axios = require('axios');
 const soundex = require('soundex');
@@ -9,7 +8,7 @@ const {
     HarmBlockThreshold,
 } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
@@ -244,8 +243,6 @@ module.exports.handleQuery = async function (req, res) {
     }
     const sqlQuery = llmOutput.response.text().replace(/```json|```/g, '').trim();
 
-    // console.log(llmOutput.response.text());
-
     // Parse the JSON string
     const queryObject = JSON.parse(sqlQuery);
 
@@ -277,11 +274,10 @@ module.exports.handleQuery = async function (req, res) {
             return authorNames.some((authorName) => patents.some((patent) => soundex(authorName) === soundex(patent.author_name)));
         });
 
-        patents = patents.filter((patent) => {
-            const authorName = patent.author_name;
+        patents = patents.filter((patent) => {;
             return papers.some((paper) => {
                 const authorNames = paper.authors.split(", ");
-                return authorNames.some((authorName) => soundex(authorName) === soundex(authorName));
+                return authorNames.some((authorName) => soundex(authorName) === soundex(patent.author_name));
             });
         });
     }

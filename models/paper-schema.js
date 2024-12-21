@@ -1,1 +1,0 @@
-module.exports = ["Id", "Title", "Authors", "PubYear", "Venue"]

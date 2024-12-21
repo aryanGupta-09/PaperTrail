@@ -19,7 +19,4 @@ router.post("/search_authors", authorQueryController.handleQuery);
 
 router.post("/llm_query", llmQueryController.handleQuery);
 
-// router.use("/fetch-data", require("./fetch-data"));
-// router.use("/authors", require("./authors"));
-
 module.exports = router;
