@@ -67,3 +67,7 @@ E.g. Give me a list of all the Professors of IIIT-Delhi who have more than 4 res
 ```bash
   npm start
 ```
+
+## Screenshots
+
+<img src="https://github.com/user-attachments/assets/6dbcffed-9dce-44dc-8f41-c5a1498fa330" alt="Query_bar" width="800" height="525" />
