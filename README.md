@@ -1,6 +1,8 @@
 # PaperTrail
 
-An integrated information system that enables researchers, professionals, and innovators to efficiently discover relevant research papers and patents, and connect with domain experts. By consolidating multiple databases, this system reduces the manual effort of searching scattered information, streamlining the research and development process.
+PaperTrail is an integrated information system designed to enable efficient discovery of research papers, patents, and domain experts through a Gemini-based query interface and multi-database integration.
+
+It incorporates a distributed query processing pipeline utilizing schema and entity matching to harmonize databases across separate machines, ensuring reliable data retrieval and real-time result consolidation.
 
 ## Tech Stack
 
